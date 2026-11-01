@@ -119,5 +119,4 @@ def main():
     plot_examples(vis,path.parent/'motion_examples.png')
     print(json.dumps(dict(results=results['result'],seconds=results['seconds']),indent=2))
 
-
 if __name__=='__main__':main()
