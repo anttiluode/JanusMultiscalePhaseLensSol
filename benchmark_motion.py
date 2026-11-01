@@ -89,7 +89,7 @@ def plot_examples(vis,out):
                                          'Phase-channel estimate','Classical phase corr.','Oracle motion'],
                                   [clean,target,current,p,classic,oracle]):
             ax.imshow(image,cmap='gray',vmin=0,vmax=1,interpolation='nearest');ax.set_title(label,fontsize=9);ax.axis('off')
-        axs[row,0].set_ylabel(f'{domain}\\nshift ({d[0]:.2f},{d[1]:.2f})',fontsize=10)
+        axs[row,0].set_ylabel(f'{domain}\nshift ({d[0]:.2f},{d[1]:.2f})',fontsize=10)
     fig.tight_layout();fig.savefig(out,dpi=130);plt.close(fig)
 
 
