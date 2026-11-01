@@ -43,8 +43,6 @@ The reference run used Python 3.13, NumPy 2.3.5, SciPy 1.17, BLAS single-threade
 
 *Wiener baseline uses a signal power spectrum estimated **only from familiar training images** and the known test noise variance. Predictably, it fails under spectral distribution shift. A separately tuned generic/shrinkage method is also in the complete ledger.*
 
-An exploratory capacity sweep at 12, 24, 48, and 96 prototypes preserved the negative phase effect in all 16 domain/noise/size combinations; see [results/CAPACITY_SWEEP.md](results/CAPACITY_SWEEP.md).
-
 On the 24 familiar seeds at both noise levels, the freely rotatable phase vocabulary **loses to the no-phase control on every paired scene**. This is not evidence against complex representations in general: the current per-patch *global phase* lacks a spatial motion constraint, and the dictionary is small and crude.
 
 ![Held-out scenes and fits](results/heldout_examples.png)
@@ -64,3 +62,20 @@ The negative phase result motivates *geometry-constrained* fitting: each compone
 See [docs/DESIGN.md](docs/DESIGN.md) for proposed mechanisms and limitations. Original inspiration: `Janus Cabbage`, `Zeta Dreamer`, `Sihti`, `CortexWaveguideLens` and the user's multiscale/visual-phase experiments.
 
 MIT License.
+
+## Experiment 002 — Real phase geometry versus arbitrary phase keys
+
+**Completed November 1, 2026.** [`results/EXPERIMENT_002.md`](results/EXPERIMENT_002.md) documents a controlled phase-motion benchmark, with code in [`phase_motion.py`](phase_motion.py) and [`benchmark_motion.py`](benchmark_motion.py).
+
+We isolated a genuine geometric rule: under a small displacement, the phase in a narrow-band directional component changes approximately by the dot product of that channel's wavevector and the displacement. This is **not** the five independent conditioning sliders of the original Janus experiment, and it is not a claim that phase rotation alone exactly shifts an image.
+
+Across 18 held-out synthetic shape pairs at sensor noise σ=.12, a channel-phase motion estimator achieved **0.100 pixel** mean error versus **0.205** for unweighted Fourier phase correlation. It worsened on 10 high-frequency unrelated scenes: **0.088** versus **0.041** for phase correlation, with direct pixel registration at **0.009**. Scrambling the measured phase-to-wavenumber association increased error sharply (0.892/1.194 pixels). Classical smoothing still won familiar-shape denoising. These are small designed synthetic tests, not natural-video results.
+
+Run:
+
+```bash
+python -m unittest discover -s tests -v
+OPENBLAS_NUM_THREADS=1 python benchmark_motion.py --output results/motion_main.json
+```
+
+**Scope boundary:** Experiment 002 is signal processing with a fixed transform and no learned recurrent world model. The Experiment 001 vocabulary remains a separate negative baseline. The next meaningful experiment is uncertainty-aware temporal inference with a conventional motion-compensated baseline matched in information and compute.
