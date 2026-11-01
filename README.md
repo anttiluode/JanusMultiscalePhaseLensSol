@@ -43,6 +43,8 @@ The reference run used Python 3.13, NumPy 2.3.5, SciPy 1.17, BLAS single-threade
 
 *Wiener baseline uses a signal power spectrum estimated **only from familiar training images** and the known test noise variance. Predictably, it fails under spectral distribution shift. A separately tuned generic/shrinkage method is also in the complete ledger.*
 
+An exploratory capacity sweep at 12, 24, 48, and 96 prototypes preserved the negative phase effect in all 16 domain/noise/size combinations; see [results/CAPACITY_SWEEP.md](results/CAPACITY_SWEEP.md).
+
 On the 24 familiar seeds at both noise levels, the freely rotatable phase vocabulary **loses to the no-phase control on every paired scene**. This is not evidence against complex representations in general: the current per-patch *global phase* lacks a spatial motion constraint, and the dictionary is small and crude.
 
 ![Held-out scenes and fits](results/heldout_examples.png)
